@@ -5,6 +5,7 @@ use App\Http\Controllers\Blade\UserController;
 use App\Http\Controllers\Blade\RoleController;
 use App\Http\Controllers\Blade\PermissionController;
 use App\Http\Controllers\Blade\HomeController;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,14 @@ Auth::routes();
 
 // Welcome page
 Route::get('/', function (){
-    return redirect()->route('home');
+    return view('akt');
 })->name('welcome');
-
+Route::get('/index',function (){
+    return view('index');
+});
+Route::get('/obmer',function (){
+    return view('aktobmer');
+});
 // Web pages
 Route::group(['middleware' => 'auth'],function (){
 
@@ -56,6 +62,9 @@ Route::group(['middleware' => 'auth'],function (){
     Route::post('/role/update/{role_id}',[RoleController::class,'update'])->name('roleUpdate');
     Route::delete('/role/delete/{id}',[RoleController::class,'destroy'])->name('roleDestroy');
 });
+
+Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
+
 
 // Change language session condition
 Route::get('/language/{lang}',function ($lang){
